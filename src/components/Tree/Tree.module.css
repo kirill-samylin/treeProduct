@@ -1,0 +1,8 @@
+.tree {
+    width: max-content;
+    list-style: none;
+    display: none;
+}
+.open {
+    display: block;
+}

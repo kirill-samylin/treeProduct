@@ -1,0 +1,228 @@
+
+.tree {
+    width: max-content;
+    list-style: none;
+}
+.tree__category {
+    display: flex;
+    flex-direction: column;
+    box-sizing: border-box;
+    border-left: 2px solid green;
+    position: relative;
+}
+.tree__category-information {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    position: sticky;
+    top: 0px;
+    z-index: 99;
+}
+.tree__category-name {
+    margin: 0;
+}
+.tree__category-menu {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+    margin-left: 10px;
+    display: flex;
+    align-items: center;
+}
+.tree__category-button {
+    display: flex;
+    align-items: center;
+}
+.tree__category-icon {
+    width: 20px;
+    height: 20px;
+    object-fit: contain;
+    margin: 0 5px;
+}
+.tree__sub-list {
+    padding: 0;
+    margin: 0;
+    margin-left: 27px;
+    list-style: none;
+    z-index: 1;
+}
+.tree__sub-item {
+    list-style: none;
+    box-sizing: border-box;
+    border-left: 2px solid green;
+}
+.tree__sub-item:hover {
+    border-left: 2px solid black;
+}
+.tree__button {
+    width: 20px;
+    height: 20px;
+    background: none;
+    background-size: cover;
+    border: none;
+    cursor: pointer;
+    margin-right: 10px;
+    outline: 0;
+}
+.switch {
+    position: relative;
+    display: inline-block;
+    width: 40px;
+    height: 20px;
+    margin: 0;
+}
+
+.switch input { 
+    opacity: 0;
+    width: 0;
+    height: 0;
+}
+
+.slider {
+    position: absolute;
+    cursor: pointer;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background-color: #ccc;
+    -webkit-transition: .4s;
+    transition: .4s;
+}
+
+.slider:before {
+    position: absolute;
+    content: "";
+    height: 16px;
+    width: 16px;
+    left: 4px;
+    bottom: 2px;
+    background-color: white;
+    -webkit-transition: .4s;
+    transition: .4s;
+}
+
+input:checked + .slider {
+    background-color: #2196F3;
+}
+
+input:focus + .slider {
+    box-shadow: 0 0 1px #2196F3;
+}
+
+input:checked + .slider:before {
+    -webkit-transform: translateX(17px);
+    -ms-transform: translateX(17px);
+    transform: translateX(17px);
+}
+
+/* Rounded sliders */
+.slider.round {
+    border-radius: 34px;
+}
+
+.slider.round:before {
+    border-radius: 50%;
+}
+.tree__block {
+    display: flex;
+    align-items: center;
+}
+.tree__block-open {
+    display: flex;
+    align-items: center;
+    min-width: 35px;
+}
+.tree__button_off {
+    display: none;
+    border-left: 2px solid red;
+}
+li {
+    position: relative;
+}
+li.placeholder:before {
+    position: absolute;
+    content: "";
+    width: 0;
+    height: 0;
+    margin-top: -5px;
+    left: -5px;
+    top: -4px;
+    border: 5px solid transparent;
+    border-left-color: red;
+    border-right: none;
+}
+.dragged {
+    z-index: 999999;
+}
+.tree__category_off {
+    background: rgb(243, 241, 241);
+    border-left: 2px solid red;
+}
+/* .tree__category::before {
+    position: absolute;
+    left: 10px;
+    margin-top: auto;
+    top: 0;
+    margin-bottom: auto;
+    bottom: 0;
+    content: "";
+    width: 7px;
+    height: 7px;
+    background-color: green;
+    border-radius: 50%;
+} */
+/* .tree__category_off::before {
+    position: absolute;
+    left: 10px;
+    margin-top: auto;
+    top: 0;
+    margin-bottom: auto;
+    bottom: 0;
+    content: "";
+    width: 7px;
+    height: 7px;
+    background-color: red;
+    border-radius: 50%;
+} */
+.tree__category.tree__category_off .tree__category {
+    background: rgb(243, 241, 241);
+    border-left: 2px solid red;
+}
+/* .tree__category.tree__category_off .tree__category::before {
+    position: absolute;
+    left: 10px;
+    margin-top: auto;
+    top: 0;
+    margin-bottom: auto;
+    bottom: 0;
+    content: "";
+    width: 7px;
+    height: 7px;
+    background-color: red;
+    border-radius: 50%;
+} */
+
+/* .tree__category:hover  {
+    background: rgb(206, 205, 205);
+}
+.tree__category:hover .tree__category-information  {
+    background: none;
+} */
+/* .tree__category.tree__category_off .tree__category:hover {
+    background: rgb(206, 205, 205);
+}    */
+.tree__category .tree__category-information {
+    background: white;
+}
+/* .tree__category:hover .tree__category_opened {
+    background: rgb(206, 205, 205);
+} */
+/* .tree__category_opened:hover .tree__category-information {
+    background: rgb(206, 205, 205);
+}
+.tree__category_opened {
+} */
+.tree__category_off .tree__category-information {
+    background: rgb(243, 241, 241);
+}

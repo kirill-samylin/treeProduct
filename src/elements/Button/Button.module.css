@@ -1,0 +1,35 @@
+.button {
+    width: 20px;
+    height: 20px;
+    background: none;
+    background-size: cover;
+    border: none;
+    cursor: pointer;
+    margin-right: 10px;
+    outline: 0;
+}
+.button:focus {
+    outline: 0;
+}
+.edit {
+    background-image: url(./icons/edit.svg);
+}
+.delete {
+    background-image: url(./icons/trash-2.svg);
+}
+.close {
+    margin-left: 5px;
+    background-image: url(./icons/arrow-rigth.svg);
+}
+.open {
+    background-image: url(./icons/arrow-down.svg);
+}
+.insert {
+    background-image: url(./icons/plus-circle.svg);
+}
+.position {
+    background-image: url(./icons/move.svg);
+}
+.opacity {
+    opacity: .5;
+}
