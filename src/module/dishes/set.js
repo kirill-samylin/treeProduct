@@ -14,7 +14,7 @@ export function set(item, tree, key, value) {
     for (let branch of tree) {
         if (isEqual(branch, item)) {
             branch[key] = value;
-            break
+            break;
         } else if (isDishes(branch)) {
             branch.products = set(item, branch.products, key, value);
         }

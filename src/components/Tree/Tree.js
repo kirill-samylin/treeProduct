@@ -23,7 +23,7 @@ export const Tree = memo(({ tree, className, handleStatus, handleExpand, expande
             ghostClass: 'ghost',
             handle: '.position',
         });
-    }, [treeElement, expanded]);
+    }, [treeElement]);
 
     return (
         <ul ref={treeElement} className={cn(styles.tree, className, 'list-group m-4', {

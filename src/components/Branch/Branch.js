@@ -7,8 +7,6 @@ import cn from 'classnames';
 export const Branch = memo(({ product, handleStatus, handleExpand }) => {
     const { category_id, parent_id, name, products, product_id, url, active=false, expanded } = product;
 
-    console.log(name, expanded)
-
     const onClick = () => handleStatus(product);
     const onClickExpanded = () => handleExpand(product);
 
@@ -30,15 +28,13 @@ export const Branch = memo(({ product, handleStatus, handleExpand }) => {
                     <Switch onClick={onClick} checked={active}/>
                 </div>
             </div>
-            <Tree 
-                className={cn({
-                    [styles.open]: expanded
-                })}
+            {!product_id ? <Tree
                 tree={products} 
                 expanded={expanded}
                 handleStatus={handleStatus}
                 handleExpand={handleExpand}
-            /> 
+            /> : null}
+            
         </li>
     )
 });
