@@ -1,4 +1,4 @@
-import React, { useState, useMemo, useEffect, useCallback } from 'react';
+import React, { useState, useEffect, useCallback } from 'react';
 import { Tree } from '../'
 import { 
     testProductArray,
@@ -7,23 +7,20 @@ import { dishes } from '../../module';
 
 const startList = dishes.flatten(testProductArray);
 const startProducts = dishes.tree(testProductArray, startList);
-
 export const App = () => {
     const [products, setProducts] = useState([]);
     const [list, setList] = useState([]);
-    
-    const tree = useMemo(() => {
-        return dishes.tree(products, list);
-    }, [ products, list ]);
     
     const handleStatus = (product) => {
         setProducts(dishes.setStatus(product, products, !product.active));
     };
 
-    const handleExpand = useCallback((product) => {
+    const handleExpand = (product) => {
         const updateProducts = dishes.set(product, products, 'expanded', !product.expanded);
+        console.log(updateProducts.find(i => i.name === product.name).expanded);
         setProducts(updateProducts);
-    }, [products]);
+        //setProducts(dishes.tree(updateProducts, startList));
+    };
 
     useEffect(() => {
         setList(startList);

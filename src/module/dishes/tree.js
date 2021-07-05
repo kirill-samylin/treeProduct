@@ -16,7 +16,7 @@ function treeItem(product, list) {
 
 export function tree(products, listTree) {
     return products.map((product) => {
-        product.expanded = false;
+        if (!product.expanded) product.expanded = false;
         if (!product.product_id) {
             treeItem(product, listTree);
             return product;

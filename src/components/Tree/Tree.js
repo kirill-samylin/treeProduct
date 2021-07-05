@@ -4,7 +4,6 @@ import { Branch } from '../';
 import cn from 'classnames';
 
 export const Tree = memo(({ tree, className, handleStatus, handleExpand, expanded }) => {
-    console.log('render tree')
     const treeElement = createRef(null);
     function getKey({ category_id, product_id, parent_id, }) {
         if (!parent_id) {

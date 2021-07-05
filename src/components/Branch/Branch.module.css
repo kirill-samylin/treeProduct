@@ -4,7 +4,6 @@
     box-sizing: border-box;
     border-left: 2px solid green;
     position: relative;
-    width: max-content;
 }
 .header {
     display: flex;

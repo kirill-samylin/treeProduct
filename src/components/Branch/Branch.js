@@ -5,6 +5,7 @@ import { Tree } from '../';
 import { Button, Switch } from '../../elements';
 import cn from 'classnames';
 export const Branch = memo(({ product, handleStatus, handleExpand }) => {
+    console.log('render Branch')
     const { category_id, parent_id, name, products, product_id, url, active=false, expanded } = product;
 
     const onClick = () => handleStatus(product);
@@ -28,12 +29,15 @@ export const Branch = memo(({ product, handleStatus, handleExpand }) => {
                     <Switch onClick={onClick} checked={active}/>
                 </div>
             </div>
-            {!product_id ? <Tree
-                tree={products} 
-                expanded={expanded}
-                handleStatus={handleStatus}
-                handleExpand={handleExpand}
-            /> : null}
+            {!product_id ? 
+                <Tree
+                    tree={products} 
+                    expanded={expanded}
+                    handleStatus={handleStatus}
+                    handleExpand={handleExpand}
+                    className={styles.view}
+                />
+            : null}
             
         </li>
     )
