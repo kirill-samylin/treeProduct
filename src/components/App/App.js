@@ -5,9 +5,12 @@ import {
 } from '../../utils';
 import { dishes } from '../../module';
 
+const startList = dishes.flatten(testProductArray);
+const startProducts = dishes.tree(testProductArray, startList);
+
 export const App = () => {
-    const [products, setProducts] = useState([]);
-    const [list, setList] = useState([]);
+    const [products, setProducts] = useState(startProducts);
+    const [list, setList] = useState(startList);
     
     const tree = useMemo(() => {
         return dishes.tree(products, list);
@@ -15,20 +18,15 @@ export const App = () => {
     
     const handleStatus = (product) => {
         setProducts(dishes.setStatus(product, products, !product.active));
-    }
+    };
 
-    const handleExpand = useCallback((product) => {
-        const arr = dishes.set(product, products, 'expanded', !product.expanded);
-        console.log(arr.find((i) => i.name === product.name).expanded)
-        setProducts(arr);
-    }, [products])
+    const handleExpand = (product) => {
+        setProducts(dishes.set(product, products, 'expanded', !product.expanded));
+    };
 
     useEffect(() => {
-        const list = dishes.flatten(testProductArray);
-        const products = dishes.tree(testProductArray, list);
-        setList(list);
-        setProducts(products);
-    }, []);
+       console.log(products.length)
+    }, [products]);
     
     return (
         <>  
