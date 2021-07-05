@@ -1,4 +1,4 @@
-.branch {
+.item {
     display: flex;
     flex-direction: column;
     box-sizing: border-box;
@@ -47,4 +47,7 @@
     height: 20px;
     object-fit: contain;
     margin: 0 5px;
+}
+.open {
+    display: block;
 }

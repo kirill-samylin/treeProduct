@@ -3,12 +3,17 @@ import styles from './Branch.module.css';
 import DefaultIcon from './icons/restaurant.svg';
 import { Tree } from '../';
 import { Button, Switch } from '../../elements';
+import cn from 'classnames';
 export const Branch = memo(({ product, handleStatus, handleExpand }) => {
     const { category_id, parent_id, name, products, product_id, url, active=false, expanded } = product;
+
+    console.log(name, expanded)
+
     const onClick = () => handleStatus(product);
-    const onClickExpanded = () => handleExpand(product)
+    const onClickExpanded = () => handleExpand(product);
+
     return (
-        <li className={`${styles.branch} list-group-item`}>
+        <li className={`${styles.item} list-group-item`}>
             <div className={styles.information}>
                 <div className={styles.header}>
                     {(!product_id) ? 
@@ -25,14 +30,15 @@ export const Branch = memo(({ product, handleStatus, handleExpand }) => {
                     <Switch onClick={onClick} checked={active}/>
                 </div>
             </div>
-            {(expanded) ?
-                <Tree 
-                    tree={products} 
-                    expanded={expanded}
-                    handleStatus={handleStatus}
-                    handleExpand={handleExpand}
-                /> : null
-            }
+            <Tree 
+                className={cn({
+                    [styles.open]: expanded
+                })}
+                tree={products} 
+                expanded={expanded}
+                handleStatus={handleStatus}
+                handleExpand={handleExpand}
+            /> 
         </li>
     )
 });

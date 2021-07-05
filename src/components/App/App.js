@@ -17,27 +17,27 @@ export const App = () => {
         setProducts(dishes.setStatus(product, products, !product.active));
     }
 
-    const handleExpand = (product) => {
-        //console.log(dishes.set(product, tree, 'expanded', !product.expanded ));
+    const handleExpand = useCallback((product) => {
         const arr = dishes.set(product, products, 'expanded', !product.expanded);
-        console.log(arr)
+        console.log(arr.find((i) => i.name === product.name).expanded)
         setProducts(arr);
-    }
+    }, [products])
 
     useEffect(() => {
         const list = dishes.flatten(testProductArray);
         const products = dishes.tree(testProductArray, list);
         setList(list);
         setProducts(products);
-    }, [])
+    }, []);
     
     return (
-        <>
+        <>  
             {products && products.length ? 
                 <Tree 
                     tree={products} 
                     handleStatus={handleStatus}
                     handleExpand={handleExpand}
+                    expanded={true}
                 /> : 
                 null
             }
