@@ -3,7 +3,7 @@ import styles from'./Tree.module.css';
 import { Branch } from '../';
 import cn from 'classnames';
 
-export const Tree = memo(({ tree, className, handleStatus, handleExpand, expanded }) => {
+export const Tree = memo(({ tree, className, handleStatus, handleExpand, expanded, handleCreate}) => {
     const treeElement = createRef(null);
     function getKey({ category_id, product_id, parent_id, }) {
         if (!parent_id) {
@@ -34,6 +34,7 @@ export const Tree = memo(({ tree, className, handleStatus, handleExpand, expande
                     product={branch} 
                     handleStatus={handleStatus} 
                     handleExpand={handleExpand}
+                    handleCreate={handleCreate}
                 />
             ))}
         </ul>

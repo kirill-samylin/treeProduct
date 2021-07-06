@@ -4,13 +4,15 @@ import DefaultIcon from './icons/restaurant.svg';
 import { Tree } from '../';
 import { Button, Switch } from '../../elements';
 import cn from 'classnames';
-export const Branch = memo(({ product, handleStatus, handleExpand }) => {
+export const Branch = memo(({ product, handleStatus, handleExpand, handleCreate }) => {
     console.log('render Branch')
     const { category_id, parent_id, name, products, product_id, url, active=false, expanded } = product;
 
     const onClick = () => handleStatus(product);
     const onClickExpanded = () => handleExpand(product);
 
+    const onCreate = () => handleCreate(product);
+    
     return (
         <li className={`${styles.item} list-group-item`}>
             <div className={styles.information}>
@@ -25,7 +27,7 @@ export const Branch = memo(({ product, handleStatus, handleExpand }) => {
                     <Button icon='position' className='position' />
                     <Button icon='edit' />
                     <Button icon='delete' />
-                    {(!product_id) ? <Button icon='insert' /> : null }
+                    {(!product_id) ? <Button onClick={onCreate} icon='insert' /> : null }
                     <Switch onClick={onClick} checked={active}/>
                 </div>
             </div>
@@ -36,6 +38,7 @@ export const Branch = memo(({ product, handleStatus, handleExpand }) => {
                     handleStatus={handleStatus}
                     handleExpand={handleExpand}
                     className={styles.view}
+                    handleCreate={handleCreate}
                 />
             : null}
             

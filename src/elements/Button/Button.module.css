@@ -33,3 +33,6 @@
 .opacity {
     opacity: .5;
 }
+.closeButton {
+    background-image: url(./icons/close.svg);
+}
