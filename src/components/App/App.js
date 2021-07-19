@@ -14,16 +14,16 @@ export const App = () => {
     const [productСreatePopup, setProductСreatePopup] = useState(false);
 
     
-    const handleStatus = (product) => {
+    const handleStatus = useCallback((product) => {
         setProducts(dishes.setStatus(product, products, !product.active));
-    };
+    }, [products]);
 
-    const handleExpand = (product) => {
+    const handleExpand = useCallback((product) => {
         const updateProducts = dishes.set(product, products, 'expanded', !product.expanded);
         console.log(updateProducts.find(i => i.name === product.name)?.expanded);
         setProducts([...updateProducts]);
         //setProducts(dishes.tree(updateProducts, list));
-    };
+    }, [products]);
 
     const handleCreate = useCallback((category) => {
         console.log(category);
@@ -35,22 +35,20 @@ export const App = () => {
     }, []);
 
     useEffect(() => {
+        console.log('App render');
         setList(startList);
         setProducts(startProducts);
     }, []);
-    
+
     return (
         <>  
-            {products && products.length ? 
-                <Tree 
-                    tree={products} 
-                    handleStatus={handleStatus}
-                    handleExpand={handleExpand}
-                    expanded={true}
-                    handleCreate={handleCreate}
-                /> : 
-                null
-            }
+            <Tree 
+                tree={products} 
+                handleStatus={handleStatus}
+                handleExpand={handleExpand}
+                expanded={true}
+                handleCreate={handleCreate}
+            /> 
             <ProductСreate opened={productСreatePopup} handleClose={handleClose} />
         </>
     )

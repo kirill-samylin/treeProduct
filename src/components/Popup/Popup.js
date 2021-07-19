@@ -9,9 +9,15 @@ export const Popup = ({ className, title, onClose, opened, children, ...props })
             onClose();
         }
     };
+    
+    const handleBackgroundClose = (e) => {
+        if (e.target.classList.contains('popup')) {
+            close();
+        }
+    };
 
     return (
-        <div onClick={close} className={cn(styles.overley, className, {
+        <div onClick={handleBackgroundClose} className={cn('popup', styles.overley, className, {
             [styles.opened]: opened
         })} {...props}>
             <div className={styles.container}>

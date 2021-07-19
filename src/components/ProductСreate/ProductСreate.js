@@ -1,4 +1,4 @@
-import React, { memo, useState } from 'react';
+import React, { memo, useState, useEffect } from 'react';
 import { Popup, Steps } from '../';
 import styles from './ProductСreate.module.css';
 
@@ -33,7 +33,10 @@ export const ProductСreate = memo(({ opened, handleClose }) => {
         }; 
         setStep(step-1);
     };
-
+    
+    useEffect(() => {
+        console.log('render ProductСreate')
+    }, [])
     return (
         <Popup opened={opened} title="Добавить продукт" onClose={handleClose}>
             <Steps className={styles.steps} steps={steps} step={step} />

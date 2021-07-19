@@ -2,6 +2,7 @@ import React, { createRef, useEffect, memo } from 'react';
 import styles from'./Tree.module.css';
 import { Branch } from '../';
 import cn from 'classnames';
+const isEqual = require('lodash/isEqual');
 
 export const Tree = memo(({ tree, className, handleStatus, handleExpand, expanded, handleCreate}) => {
     const treeElement = createRef(null);
@@ -39,4 +40,9 @@ export const Tree = memo(({ tree, className, handleStatus, handleExpand, expande
             ))}
         </ul>
     )
+}, (prevProps, nextProps) => {
+    if (isEqual(prevProps, nextProps)) {
+      return true;
+    }
+    return false;
 });
