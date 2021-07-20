@@ -1,17 +1,23 @@
-import React, { memo } from 'react';
+import React, { memo, useCallback } from 'react';
 import styles from './Branch.module.css';
 import DefaultIcon from './icons/restaurant.svg';
 import { Tree } from '../';
 import { Button, Switch } from '../../elements';
-const isEqual = require('lodash/isEqual');
-export const Branch = memo(({ product, handleStatus, handleExpand, handleCreate }) => {
+import { useDispatch } from 'react-redux';
+import {
+    changeStatus,
+    changeExpand,
+  } from '../App/AppSlice';
+
+export const Branch = memo(({ product }) => {
     console.log('render Branch')
     const { category_id, parent_id, name, products, product_id, url, active=false, expanded } = product;
 
-    const onClick = () => handleStatus(product);
-    const onClickExpanded = () => handleExpand(product);
+    const dispatch = useDispatch();
+    const onClick = useCallback(() => dispatch(changeStatus(product)), [product, dispatch]);
+    const onClickExpanded = useCallback(() => dispatch(changeExpand(product)), [product, dispatch]);
 
-    const onCreate = () => handleCreate(product);
+    const onCreate = useCallback(() => dispatch(changeExpand(product)), [product, dispatch]);
 
     return (
         <li className={`${styles.item} list-group-item`}>
@@ -35,18 +41,10 @@ export const Branch = memo(({ product, handleStatus, handleExpand, handleCreate 
                 <Tree
                     tree={products} 
                     expanded={expanded}
-                    handleStatus={handleStatus}
-                    handleExpand={handleExpand}
                     className={styles.view}
-                    handleCreate={handleCreate}
                 />
             : null}
             
         </li>
     )
-}, (prevProps, nextProps) => {
-    if (isEqual(prevProps, nextProps)) {
-      return true;
-    }
-    return false;
 });

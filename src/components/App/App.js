@@ -1,55 +1,38 @@
-import React, { useState, useEffect, useCallback } from 'react';
-import { Tree, ProductСreate } from '../';
-import { 
-    testProductArray,
-} from '../../utils';
-import { dishes } from '../../module';
-
-const startList = dishes.flatten(testProductArray);
-const startProducts = dishes.tree(testProductArray, startList);
+import React, { useState, useEffect, useCallback } from "react";
+import { Tree, ProductСreate } from "../";
+import { useSelector, useDispatch } from "react-redux";
+import {
+  changeStatus,
+  changeExpand,
+  treeAsync,
+  selectProducts,
+} from "./AppSlice";
 
 export const App = () => {
-    const [products, setProducts] = useState([]);
-    const [list, setList] = useState([]);
-    const [productСreatePopup, setProductСreatePopup] = useState(false);
+  const products = useSelector(selectProducts);
+  const dispatch = useDispatch();
+  const [productСreatePopup, setProductСreatePopup] = useState(false);
 
-    
-    const handleStatus = useCallback((product) => {
-        setProducts(dishes.setStatus(product, products, !product.active));
-    }, [products]);
+  const handleCreate = useCallback((category) => {
+    console.log(category);
+    setProductСreatePopup(true);
+  }, []);
 
-    const handleExpand = useCallback((product) => {
-        const updateProducts = dishes.set(product, products, 'expanded', !product.expanded);
-        console.log(updateProducts.find(i => i.name === product.name)?.expanded);
-        setProducts([...updateProducts]);
-        //setProducts(dishes.tree(updateProducts, list));
-    }, [products]);
+  const handleClose = useCallback(() => {
+    setProductСreatePopup(false);
+  }, []);
 
-    const handleCreate = useCallback((category) => {
-        console.log(category);
-        setProductСreatePopup(true);
-    }, []);
+  useEffect(() => {
+    dispatch(treeAsync());
+  }, [dispatch]);
 
-    const handleClose = useCallback(() => {
-        setProductСreatePopup(false);
-    }, []);
-
-    useEffect(() => {
-        console.log('App render');
-        setList(startList);
-        setProducts(startProducts);
-    }, []);
-
-    return (
-        <>  
-            <Tree 
-                tree={products} 
-                handleStatus={handleStatus}
-                handleExpand={handleExpand}
-                expanded={true}
-                handleCreate={handleCreate}
-            /> 
-            <ProductСreate opened={productСreatePopup} handleClose={handleClose} />
-        </>
-    )
-}
+  return (
+    <>
+      <Tree
+        tree={products}
+        expanded={true}
+      />
+      <ProductСreate opened={productСreatePopup} handleClose={handleClose} />
+    </>
+  );
+};

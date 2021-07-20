@@ -2,9 +2,8 @@ import React, { createRef, useEffect, memo } from 'react';
 import styles from'./Tree.module.css';
 import { Branch } from '../';
 import cn from 'classnames';
-const isEqual = require('lodash/isEqual');
 
-export const Tree = memo(({ tree, className, handleStatus, handleExpand, expanded, handleCreate}) => {
+export const Tree = memo(({ tree, className, expanded}) => {
     const treeElement = createRef(null);
     function getKey({ category_id, product_id, parent_id, }) {
         if (!parent_id) {
@@ -32,17 +31,9 @@ export const Tree = memo(({ tree, className, handleStatus, handleExpand, expande
             {tree && tree.map((branch) => (
                 <Branch 
                     key={getKey(branch)} 
-                    product={branch} 
-                    handleStatus={handleStatus} 
-                    handleExpand={handleExpand}
-                    handleCreate={handleCreate}
+                    product={branch}
                 />
             ))}
         </ul>
     )
-}, (prevProps, nextProps) => {
-    if (isEqual(prevProps, nextProps)) {
-      return true;
-    }
-    return false;
 });
