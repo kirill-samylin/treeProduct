@@ -1,0 +1,13 @@
+.form {
+    display: flex;
+    flex-direction: column;
+    position: relative;
+}
+.steps {
+    position: absolute;
+    right: 25px;
+    top: 25px
+}
+.popup {
+    width: 80%;
+}

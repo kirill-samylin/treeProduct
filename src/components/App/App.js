@@ -1,38 +1,32 @@
-import React, { useState, useEffect, useCallback } from "react";
-import { Tree, ProductСreate } from "../";
+import React, { useEffect } from "react";
+import styles from './App.module.css';
+import { Tree, PopupProduct, Menu, PopupCategory } from "../";
 import { useSelector, useDispatch } from "react-redux";
+import "cropperjs/dist/cropper.css";
 import {
-  changeStatus,
-  changeExpand,
   treeAsync,
   selectProducts,
-} from "./AppSlice";
+} from "./App.slice";
 
 export const App = () => {
   const products = useSelector(selectProducts);
   const dispatch = useDispatch();
-  const [productСreatePopup, setProductСreatePopup] = useState(false);
-
-  const handleCreate = useCallback((category) => {
-    console.log(category);
-    setProductСreatePopup(true);
-  }, []);
-
-  const handleClose = useCallback(() => {
-    setProductСreatePopup(false);
-  }, []);
 
   useEffect(() => {
     dispatch(treeAsync());
   }, [dispatch]);
-
   return (
     <>
-      <Tree
-        tree={products}
-        expanded={true}
-      />
-      <ProductСreate opened={productСreatePopup} handleClose={handleClose} />
+      <section className={styles.app}>
+        <Menu />
+        <Tree
+          id="root"
+          tree={products}
+          expanded={true}
+        />  
+      </section>
+      <PopupProduct />
+      <PopupCategory />
     </>
   );
 };

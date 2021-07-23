@@ -1,0 +1,12 @@
+.popup {
+    z-index: 1000 !important;
+}
+.container {
+    width: auto !important;
+}
+.buttons {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-top: 20px;
+}

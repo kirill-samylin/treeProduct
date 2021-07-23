@@ -1,0 +1,17 @@
+.form {
+    display: flex;
+    flex-direction: column;
+    position: relative;
+}
+.popup {
+    width: 80%;
+}
+.buttons {
+    display: flex;
+    justify-content: space-between;
+}
+.errors {
+    font-size: 14px;
+    line-height: 16px;
+    color: red;
+}

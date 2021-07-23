@@ -1,8 +1,13 @@
 .tree {
-    width: max-content;
     list-style: none;
     display: none;
+    margin: 10px;
 }
 .open {
     display: block;
+}
+.selected {
+    background-color: #f9c7c8;
+    border: solid red 1px !important;
+    z-index: 1 !important;
 }

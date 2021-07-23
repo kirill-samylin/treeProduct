@@ -1,1 +1,1 @@
-export * as dishes from './dishes';
+export * as product from './product';

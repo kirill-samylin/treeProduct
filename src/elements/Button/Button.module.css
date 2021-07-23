@@ -18,17 +18,19 @@
     background-image: url(./icons/trash-2.svg);
 }
 .close {
-    margin-left: 5px;
     background-image: url(./icons/arrow-rigth.svg);
 }
 .open {
     background-image: url(./icons/arrow-down.svg);
 }
 .insert {
-    background-image: url(./icons/plus-circle.svg);
+    background-image: url(./icons/file-plus.svg);
 }
 .position {
     background-image: url(./icons/move.svg);
+}
+.folder_plus {
+    background-image: url(./icons/folder-plus.svg);
 }
 .opacity {
     opacity: .5;
