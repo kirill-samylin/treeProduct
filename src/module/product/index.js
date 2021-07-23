@@ -7,3 +7,4 @@ export * from './isDishes';
 export * from './tree';
 export * from './insert';
 export * from './remove';
+export * from './isPassive';

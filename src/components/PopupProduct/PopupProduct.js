@@ -1,6 +1,6 @@
 import React, { useEffect } from "react";
 import validator from "validator";
-import { Popup } from "..";
+import { Popup, ImageCropper } from "..";
 import styles from "./PopupProduct.module.css";
 import { useSelector, useDispatch } from "react-redux";
 import { useForm } from "react-hook-form";
@@ -19,9 +19,9 @@ export const PopupProduct = () => {
   const {
     register,
     handleSubmit,
-    formState: { errors },
+    formState: { errors, isValid },
     reset,
-  } = useForm();
+  } = useForm({ mode: 'onChange' });
 
   const onSubmit = (values) => {
     delete values.image;
@@ -98,13 +98,7 @@ export const PopupProduct = () => {
             {errors.price && "Укажите стоимость"}
           </Form.Text>
         </Form.Group>
-        <Form.Group>
-          <Form.File
-            id="exampleFormControlFile1"
-            label="Картинка"
-            {...register("image")}
-          />
-        </Form.Group>
+        <ImageCropper register={register}/>
         <Form.Group>
           <Form.Label>Вес</Form.Label>
           <Form.Control
@@ -138,7 +132,7 @@ export const PopupProduct = () => {
           </Form.Group>
         </div>
         <div className={styles.buttons}>
-          <Button variant="primary" type="submit">
+          <Button variant="primary" type="submit" disabled={!isValid}>
             Добавить
           </Button>
           <Button variant="secondary" type="button" onClick={onClose}>

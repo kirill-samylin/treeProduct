@@ -7,7 +7,7 @@ function set(item, status, arr) {
             active: status,
         })
     }
-    item.active = status
+    item.active = status;
 }
 
 function treeSetStatus(tree=[], status=false, arr) {
@@ -23,7 +23,7 @@ export function setStatus(item, tree, status, arr=[]) {
     return tree.map((branch) => {
         if (isEqual(item, branch)) {
             set(branch, status, arr);
-            treeSetStatus(branch.products, status, arr)
+            treeSetStatus(branch.products, status, arr);
         } else if (isDishes(branch)) {
             branch.products = setStatus(item, branch.products, status, arr);
         }
