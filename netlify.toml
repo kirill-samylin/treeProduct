@@ -7,6 +7,4 @@
 
 [build]
   base = "./"
-  CI = false && npm run build
-  publish = "build" 
   

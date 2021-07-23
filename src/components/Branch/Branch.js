@@ -17,7 +17,7 @@ import * as popupCategory from "../PopupCategory/PopupCategory.slice";
 
 export const Branch = memo(({ product }) => {
     console.log('render Branch')
-    const { category_id, parent_id, name, products, product_id, url, active=false, expanded } = product;
+    const { category_id, /*parent_id,*/ name, products, product_id, /*url,*/ active=false, expanded } = product;
 
     const dispatch = useDispatch();
     const onClick = useCallback(() => dispatch(changeStatus(product)), [product, dispatch]);
