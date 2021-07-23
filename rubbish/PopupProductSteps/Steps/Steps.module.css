@@ -1,9 +1,0 @@
-.buttons {
-    display: flex;
-    justify-content: space-between;
-}
-.errors {
-    font-size: 14px;
-    line-height: 16px;
-    color: red;
-}
