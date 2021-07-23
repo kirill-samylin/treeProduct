@@ -8,11 +8,8 @@
 /coverage
 
 # production
-/node_modules
-/public
+/build
 /rubbish
-/src
-
 tree copy.html
 
 # misc
