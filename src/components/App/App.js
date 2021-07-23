@@ -1,6 +1,6 @@
 import React, { useEffect } from "react";
 import styles from './App.module.css';
-import { Tree, PopupProduct, Menu, PopupCategory } from "../";
+import { Tree, PopupProduct, Menu, PopupCategory } from "..";
 import { useSelector, useDispatch } from "react-redux";
 import "cropperjs/dist/cropper.css";
 import {
@@ -15,6 +15,7 @@ export const App = () => {
   useEffect(() => {
     dispatch(treeAsync());
   }, [dispatch]);
+
   return (
     <>
       <section className={styles.app}>

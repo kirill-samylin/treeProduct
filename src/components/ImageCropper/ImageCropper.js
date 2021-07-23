@@ -2,11 +2,11 @@ import React from "react";
 import { useDispatch } from "react-redux";
 import "cropperjs/dist/cropper.css";
 import { Form } from "react-bootstrap";
-import * as cropperSlice from "./ImageCropper.slice";
+import { handleOpen }from "./ImageCropper.slice";
 import ImageCropperPreview from './ImageCropperPreview/ImageCropperPreview';
 import ImageCropperPopup from './ImageCropperPopup/ImageCropperPopup';
 
-export const ImageCropper = ({ register }) => {
+export const ImageCropper = ({ register, ...props }) => {
 
   const dispatch = useDispatch();
 
@@ -15,7 +15,7 @@ export const ImageCropper = ({ register }) => {
     if (!isImage) return;
     const reader = new FileReader();
     reader.onload = () => {
-      dispatch(cropperSlice.handleOpen(reader.result));
+      dispatch(handleOpen(reader.result));
     };
     reader.readAsDataURL(file);
   };
@@ -35,7 +35,7 @@ export const ImageCropper = ({ register }) => {
 
   return (
     <>
-      <ImageCropperPreview />
+      <ImageCropperPreview {...props} />
       <Form.Group>
         <Form.File
           label="Картинка"

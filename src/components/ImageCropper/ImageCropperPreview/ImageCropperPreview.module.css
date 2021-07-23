@@ -7,3 +7,13 @@
 .menu {
     margin-top: 10px;
 }
+.spinner {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 100%;
+    height: 70px;
+}
+.hidden {
+    display: none;
+}

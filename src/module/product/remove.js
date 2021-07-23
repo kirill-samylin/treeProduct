@@ -1,9 +1,9 @@
-import { isEqual } from '.';
+import { isEqual, isDishes } from '.';
 export function remove(product, list) {
     for (let item of list) {
         if (isEqual(product, item)) {
             return list.filter((i) => !isEqual(product, i));
-        } else if (Array.isArray(item.products)) {
+        } else if (isDishes(item)) {
             item.products = remove(product, item.products);
         }
     }

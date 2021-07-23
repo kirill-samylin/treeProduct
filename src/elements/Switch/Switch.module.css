@@ -58,3 +58,6 @@
 .switch span:before {
     border-radius: 50%;
 }
+.passive input:checked + span {
+    background-color: #ccc;
+}

@@ -46,7 +46,7 @@ export const Branch = memo(({ product }) => {
                     {(!product_id) ? <Button onClick={onCreateProduct} icon='insert' /> : null }
                     <Button icon='edit' />
                     <Button className="position2" icon='delete' onClick={onRemove} />
-                    <Switch onClick={onClick} checked={active}/>
+                    <Switch onClick={onClick} checked={active} passive={product.isPassive} />
                 </div>
             </div>
             {!product_id ? 

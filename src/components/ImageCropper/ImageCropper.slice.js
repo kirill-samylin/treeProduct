@@ -6,6 +6,7 @@ const initialState = {
   image: "",
   url: "",
   loading: false,
+  imageLoad: false,
 };
 
 export const saveImageAsync = createAsyncThunk(
@@ -21,35 +22,45 @@ export const imageCropperSlice = createSlice({
   initialState,
   reducers: {
     handleClose: (state) => {
+      state.imageLoad = false;
       state.isOpen = false;
       state.image = "";
     },
     handleOpen: (state, action) => {
+      state.imageLoad = true;
       state.image = action.payload;
       state.isOpen = true;
-      state.url = "";
     },
     handleRemove: (state) => {
       state.url = "";
     },
+    offImageLoad: (state) => {
+      state.imageLoad = false;
+    }
   },
   extraReducers: (builder) => {
     builder
       .addCase(saveImageAsync.pending, (state) => {
+        state.url = "";
+        state.imageLoad = true;
         state.loading = true;
+        state.isOpen = false;
       })
       .addCase(saveImageAsync.fulfilled, (state, action) => {
         state.url = action.payload;
         state.loading = false;
-        state.isOpen = false;
+        state.imageLoad = false;
       });
   },
 });
 
-export const { handleClose, handleOpen, handleRemove } = imageCropperSlice.actions;
+export const { handleClose, handleOpen, handleRemove, offImageLoad } = imageCropperSlice.actions;
 
 export const selectState = (state) => state.imageCropper.isOpen;
 export const selectImage = (state) => state.imageCropper.image;
 export const selectUrl = (state) => state.imageCropper.url;
+export const selectLoading = (state) => state.imageCropper.loading;
+export const selectImageLoad = (state) => state.imageCropper.imageLoad;
+
 
 export default imageCropperSlice.reducer;

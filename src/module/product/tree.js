@@ -8,7 +8,7 @@ function someStatus(list, product, status) {
 
 function treeItem(product, list) {
     product.active = someStatus(list, product, true);
-    product.isPassiveProduct = someStatus(list, product, false);
+    product.isPassive = someStatus(list, product, false);
     if (product.products && product.products.length) {
         product.products = tree(product.products, list);
     }

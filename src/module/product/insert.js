@@ -1,4 +1,4 @@
-import { isEqual } from '.';
+import { isEqual, isDishes } from '.';
 export function insert(product, list) {
     for (let item of list) {
         console.log(product.parent_item)
@@ -6,7 +6,7 @@ export function insert(product, list) {
             //delete product.parent_item;
             item.products.unshift(product);
             break;
-        } else if (Array.isArray(item.products)) {
+        } else if (isDishes(item)) {
             insert(product, item.products);
         }
     }
