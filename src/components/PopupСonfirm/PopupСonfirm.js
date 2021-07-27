@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useCallback } from "react";
 import { Popup } from "..";
 import styles from "./PopupСonfirm.module.css";
 import { useSelector, useDispatch } from "react-redux";
@@ -10,13 +10,17 @@ import {
 } from '../App/App.slice';
 
 export const PopupСonfirm = () => {
-  const { isOpen, title, data } = useSelector(selectData);
+  const { isOpen, title, data, cb } = useSelector(selectData);
   const dispatch = useDispatch();
 
-  const onClose = () => {
-    dispatch(handleClose());
-  };
-  const handleConfirm = () => console.log(data);
+  const onClose = useCallback(() => dispatch(handleClose()), [dispatch]);
+
+  const handleConfirm = useCallback(() => {
+    if (typeof cb === 'function') {
+      cb();
+    }
+    onClose();
+  }, [cb, onClose]);
 
   return (
     <Popup

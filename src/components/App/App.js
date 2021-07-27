@@ -1,6 +1,6 @@
 import React, { useEffect } from "react";
 import styles from './App.module.css';
-import { Tree, PopupProduct, Menu, PopupCategory } from "..";
+import { Tree, PopupProduct, Menu, PopupCategory, PopupСonfirm } from "..";
 import { useSelector, useDispatch } from "react-redux";
 import "cropperjs/dist/cropper.css";
 import {
@@ -28,6 +28,7 @@ export const App = () => {
       </section>
       <PopupProduct />
       <PopupCategory />
+      <PopupСonfirm />
     </>
   );
 };

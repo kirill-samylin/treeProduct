@@ -13,15 +13,25 @@ import {
 
 import * as popupProduct from "../PopupProduct/PopupProduct.slice";
 import * as popupCategory from "../PopupCategory/PopupCategory.slice";
+import * as popupСonfirm from "../PopupСonfirm/PopupСonfirm.slice";
 
 export const Category = memo(({ product }) => {
+    console.log('render Category');
+
     const { category_id, parent_id, name_ru, products, children, /*url,*/ disabled, expanded } = product;
+
     const dispatch = useDispatch();
     const onClick = useCallback(() => dispatch(changeStatus(product)), [product, dispatch]);
     const onClickExpanded = useCallback(() => dispatch(changeExpand(product)), [product, dispatch]);
     const onCreateProduct = useCallback(() => dispatch(popupProduct.handleOpen(product)), [product, dispatch]);
     const onCreateCategory = useCallback(() => dispatch(popupCategory.handleOpen(product)), [product, dispatch]);
     const onRemove = useCallback(() => dispatch(remove(product)), [product, dispatch]);
+
+    const onConfirm = useCallback(() => dispatch(popupСonfirm.handleOpen({
+        data: product,
+        title: `Удалить категорию ${name_ru} ?`,
+        cb: onRemove,
+    })), [product, dispatch, onRemove, name_ru]);
 
     return (
         <li className={`${styles.item} list-group-item`} 
@@ -38,7 +48,7 @@ export const Category = memo(({ product }) => {
                     <Button onClick={onCreateCategory} icon='folder_plus' />
                     <Button onClick={onCreateProduct} icon='insert' />
                     <Button icon='edit' />
-                    <Button className="position2" icon='delete' onClick={onRemove} />
+                    <Button className="position2" icon='delete' onClick={onConfirm} />
                     <Switch onClick={onClick} checked={!disabled} passive={product.isPassive} />
                 </div>
             </div>
