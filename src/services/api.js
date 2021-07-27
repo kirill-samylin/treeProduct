@@ -1,7 +1,7 @@
 
 import { 
-    testProductArray,
-} from '../utils';
+  localeProducts,
+} from './localeProducts';
 // import axios from "axios"
 
 // export default axios.create({
@@ -9,7 +9,7 @@ import {
 //   responseType: "json"
 // });
 
-export function getProducts() {
+export function getProducts(id) {
   return new Promise((resolve) => {
     // axios.get('https://lk.foodle.su/restaurant/menu-stop-list-data?id=1', {
     //   headers: {
@@ -19,7 +19,17 @@ export function getProducts() {
     // })
     //   .then((res) => console.log(res))
     //   .catch((err) => console.log(err))
-      setTimeout(() => resolve({ data: testProductArray }), 500)
+    fetch('http://lk.foodle.local/restaurant/menu-data?id=1', {
+      headers: {
+        'Content-Type': 'application/json',
+        "Access-Control-Allow-Origin": "*"
+        }
+      })
+      .then((result) => {
+        console.log(result)
+      }).catch((err) => {
+        resolve({ data: localeProducts })
+      });
   });
 }
 export function saveImage() {

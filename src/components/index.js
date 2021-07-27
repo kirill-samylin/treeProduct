@@ -1,6 +1,5 @@
 export * from './App/App';
 export * from './Tree/Tree';
-export * from './Branch/Branch';
 export * from './Popup/Popup';
 export * from './PopupProduct/PopupProduct';
 export * from './PopupCategory/PopupCategory';
@@ -8,3 +7,6 @@ export * from './ImageCropper/ImageCropper';
 export * from './Steps/Steps';
 export * from './Step/Step';
 export * from './Menu/Menu';
+export * from './Category/Category';
+export * from './Product/Product';
+export * from './PopupСonfirm/PopupСonfirm';

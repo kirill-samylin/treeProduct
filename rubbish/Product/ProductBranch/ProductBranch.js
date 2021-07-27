@@ -49,15 +49,6 @@ export const ProductBranch = memo(({ product }) => {
                     <Switch onClick={onClick} checked={active} passive={product.isPassive} />
                 </div>
             </div>
-            {/* {!product_id ? 
-                <ProductTree
-                    id={category_id}
-                    tree={products} 
-                    expanded={expanded}
-                    className={styles.view}
-                />
-            : null} */}
-            
         </li>
     )
 });

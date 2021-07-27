@@ -5,15 +5,15 @@ import { useSelector, useDispatch } from "react-redux";
 import "cropperjs/dist/cropper.css";
 import {
   treeAsync,
-  selectProducts,
+  selectTree
 } from "./App.slice";
 
 export const App = () => {
-  const products = useSelector(selectProducts);
+  const { products } = useSelector(selectTree);
   const dispatch = useDispatch();
 
   useEffect(() => {
-    dispatch(treeAsync());
+    dispatch(treeAsync(1));
   }, [dispatch]);
 
   return (
@@ -22,7 +22,7 @@ export const App = () => {
         <Menu />
         <Tree
           id="root"
-          tree={products}
+          categories={products}
           expanded={true}
         />  
       </section>

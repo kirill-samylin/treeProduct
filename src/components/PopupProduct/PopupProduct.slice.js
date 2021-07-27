@@ -15,8 +15,7 @@ export const popupProductSlice = createSlice({
     },
     handleOpen: (state, action) => {
       state.data = {
-        parent_id: action.payload.parent_id,
-        category_id: action.payload.category_id,
+        parent_id: action.payload.category_id,
         parent_item: action.payload,
       };
       state.isOpen = true;

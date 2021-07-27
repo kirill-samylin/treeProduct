@@ -26,6 +26,8 @@ export const PopupCategory = () => {
   const onSubmit = (values) => {
     values.category_id = +new Date();
     values.products = [];
+    values.children = [];
+    values.disabled = +values.disabled;
     delete values.image;
     dispatch(insert(values));
     onClose();
@@ -52,7 +54,7 @@ export const PopupCategory = () => {
           <Form.Control
             type="text"
             placeholder="Введите название"
-            {...register("name", { required: true })}
+            {...register("name_ru", { required: true })}
           />
           <Form.Text className={styles.errors}>
             {errors.name && "Введите название"}
@@ -84,8 +86,8 @@ export const PopupCategory = () => {
         <Form.Group controlId="exampleForm.activeCategory" className="mr-4">
           <Form.Check
               type="checkbox"
-              label="Активная"
-              {...register("active")}
+              label="Выключено"
+              {...register("disabled")}
           />
         </Form.Group>
         <ImageCropper register={register} />

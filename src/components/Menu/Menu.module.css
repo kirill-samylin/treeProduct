@@ -12,3 +12,8 @@
     margin: 0;
     margin-right: 20px;
 }
+.refresh {
+    height: 18px;
+    width: 18px;
+    color: white;
+}

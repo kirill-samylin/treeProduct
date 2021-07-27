@@ -1,20 +1,10 @@
 import React, { createRef, useEffect, memo } from "react";
 import styles from "./Tree.module.css";
-import { Branch } from "../";
+import { Category, Product } from "../";
 import cn from "classnames";
 
-export const Tree = memo(({ id, tree, className, expanded }) => {
+export const Tree = memo(({ id, categories, products, className, expanded }) => {
   const treeElement = createRef(null);
-
-  function getKey({ category_id, product_id, parent_id }) {
-    if (!parent_id) {
-      return category_id;
-    }
-    if (!product_id) {
-      return category_id;
-    }
-    return product_id;
-  }
 
   const onEnd = (evt) => {
     const oldIndex = evt.oldIndex;
@@ -72,8 +62,12 @@ export const Tree = memo(({ id, tree, className, expanded }) => {
         [styles.open]: expanded,
       })}
     >
-      {tree &&
-        tree.map((branch) => <Branch key={getKey(branch)} product={branch} />)}
+      {Array.isArray(products) &&
+        products.map((product) => <Product key={product.product_id} product={product} />
+      )}
+      {Array.isArray(categories) &&
+        categories.map((category) => <Category key={category.category_id} product={category} />
+      )}
     </ul>
   );
 });

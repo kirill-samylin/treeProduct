@@ -1,17 +1,16 @@
 import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
 import { getProducts } from "../../services/api";
-import { product } from "../../module";
+import { tree } from "../../utils";
 
 const initialState = {
   products: [],
-  list: [],
   loading: false,
 };
 
 export const treeAsync = createAsyncThunk(
   "tree/getProducts",
-  async (amount) => {
-    const response = await getProducts(amount);
+  async (id) => {
+    const response = await getProducts(id);
     return response.data;
   }
 );
@@ -22,26 +21,27 @@ export const treeSlice = createSlice({
   reducers: {
     changeStatus: (state, action) => {
       const item = action.payload;
-      const tree = product.setStatus(item, state.products, !item.active);
-      const list = product.flatten(tree);
-      state.products = product.tree(tree, list);
+      if ((item.hasOwnProperty("active") && item.active) || (item.hasOwnProperty("disabled") && !item.disabled)) {
+        state.products = tree.offBranch(item, state.products);
+      } else {
+        state.products = tree.onBranch(item, state.products);
+      }
     },
     changeExpand: (state, action) => {
       const item = action.payload;
-      state.products = product.set(item, state.products, 'expanded', !item.expanded);
+      state.products = tree.set(item, state.products, 'expanded', !item.expanded);
     },
     insert: (state, action) => {
       const item = action.payload;
       if (item.parent_id === "root" && !item.product_id) {
         state.products = [item, ...state.products.concat()];
       } else {
-        state.products = product.insert(item, state.products.concat());
+        state.products = tree.insert(item, state.products.concat());
       }
     },
     remove: (state, action) => {
       const item = action.payload;
-      console.log(item)
-      state.products = product.remove(item, state.products);
+      state.products = tree.remove(item, state.products);
     },
   },
   extraReducers: (builder) => {
@@ -50,17 +50,20 @@ export const treeSlice = createSlice({
         state.loading = true;
       })
       .addCase(treeAsync.fulfilled, (state, action) => {
-        const list = product.flatten(action.payload);
-        const products = product.tree(action.payload, list);
+        state.products = action.payload;
         state.loading = false;
-        state.products = products;
-        state.list = list;
       });
   },
 });
 
 export const { changeStatus, changeExpand, insert, remove } = treeSlice.actions;
 
-export const selectProducts = (state) => state.tree.products;
+export const selectTree = (state) => {
+  const items = state.tree.products;
+  let list = tree.flatten(items);
+  list = tree.passiveMode(list);
+  const products = tree.get(items, list);
+  return { list, products };
+};
 
 export default treeSlice.reducer;

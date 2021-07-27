@@ -25,10 +25,12 @@ export const PopupProduct = () => {
 
   const onSubmit = (values) => {
     delete values.image;
-    dispatch(insert({
-      product_id: +new Date(),
+    const data = {
       ...values
-    }));
+    };
+    data.product_id = +new Date();
+    data.active = +values.active;
+    dispatch(insert(data));
     onClose();
   };
 
