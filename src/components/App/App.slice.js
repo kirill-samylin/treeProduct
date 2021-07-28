@@ -1,7 +1,7 @@
 import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
 import { getProducts } from "../../services/api";
 import { tree } from "../../utils";
-
+import { localeProducts } from "../../services/localeProducts";
 const initialState = {
   products: [],
   loading: false,
@@ -10,8 +10,7 @@ const initialState = {
 export const treeAsync = createAsyncThunk(
   "tree/getProducts",
   async (id) => {
-    const response = await getProducts(id);
-    return response.data;
+    return await getProducts(id);
   }
 );
 
@@ -50,7 +49,17 @@ export const treeSlice = createSlice({
         state.loading = true;
       })
       .addCase(treeAsync.fulfilled, (state, action) => {
-        state.products = action.payload;
+        console.log('treeAsync.fulfilled');
+        console.log(action.payload);
+        if (action.payload) {
+          state.products = action.payload;
+        } else {
+          state.products = localeProducts;
+        }
+        state.loading = false;
+      })
+      .addCase(treeAsync.rejected, (state, action) => {
+        state.products = localeProducts;
         state.loading = false;
       });
   },
