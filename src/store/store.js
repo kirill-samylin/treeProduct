@@ -1,5 +1,5 @@
 import { configureStore } from '@reduxjs/toolkit';
-import treeReducer from '../components/App/App.slice';
+import treeReducer from '../components/Tree/Tree.slice';
 import popupProduct from '../components/PopupProduct/PopupProduct.slice';
 import popupCategory from '../components/PopupCategory/PopupCategory.slice';
 import imageCropper from '../components/ImageCropper/ImageCropper.slice';

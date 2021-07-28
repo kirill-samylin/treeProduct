@@ -4,16 +4,22 @@ import { Tree, PopupProduct, Menu, PopupCategory, PopupСonfirm } from "..";
 import { useSelector, useDispatch } from "react-redux";
 import "cropperjs/dist/cropper.css";
 import {
-  treeAsync,
+  getAsync,
   selectTree
-} from "./App.slice";
+} from "../Tree/Tree.slice";
+import { getParams } from "../../utils";
 
 export const App = () => {
   const { products } = useSelector(selectTree);
   const dispatch = useDispatch();
 
   useEffect(() => {
-    dispatch(treeAsync(1));
+    const params = getParams(window.location.href);
+    if (params.id) {
+      dispatch(getAsync(params.id));
+    } else {
+      dispatch(getAsync("test"));
+    }
   }, [dispatch]);
 
   return (

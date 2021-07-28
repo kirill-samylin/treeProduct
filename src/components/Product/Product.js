@@ -6,8 +6,8 @@ import { useDispatch } from 'react-redux';
 import {
     changeStatus,
     remove
-} from '../App/App.slice';
-
+} from '../Tree/Tree.slice';
+import { handleOpen } from "../PopupСonfirm/PopupСonfirm.slice";
 export const Product = memo(({ product }) => {
     console.log('render Product')
     const { /*parent_id,*/ name, product_id, /*url,*/ active=false } = product;
@@ -15,6 +15,11 @@ export const Product = memo(({ product }) => {
     const dispatch = useDispatch();
     const onClick = useCallback(() => dispatch(changeStatus(product)), [product, dispatch]);
     const onRemove = useCallback(() => dispatch(remove(product)), [product, dispatch]);
+
+    const onConfirm = useCallback(() => dispatch(handleOpen({
+        title: `Удалить блюдо ${name} ?`,
+        cb: onRemove,
+    })), [dispatch, onRemove, name]);
 
     return (
         <li className={`${styles.item} list-group-item`} 
@@ -28,7 +33,7 @@ export const Product = memo(({ product }) => {
                 <div className={styles.buttons}>
                     <Button icon='position' className='position' />
                     <Button icon='edit' />
-                    <Button className="position2" icon='delete' onClick={onRemove} />
+                    <Button className="position2" icon='delete' onClick={onConfirm} />
                     <Switch onClick={onClick} checked={active} passive={product.isPassive} />
                 </div>
             </div>

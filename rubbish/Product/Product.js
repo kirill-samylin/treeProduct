@@ -7,7 +7,7 @@ import "cropperjs/dist/cropper.css";
 import {
   treeAsync,
   selectProducts,
-} from "../App/App.slice";
+} from "../Tree/Tree.slice";
 
 export const Product = () => {
   const products = useSelector(selectProducts);

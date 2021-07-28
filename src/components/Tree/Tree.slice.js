@@ -1,16 +1,30 @@
 import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
-import { getProducts } from "../../services/api";
+import * as api from "../../services/api";
 import { tree } from "../../utils";
 import { localeProducts } from "../../services/localeProducts";
+
 const initialState = {
   products: [],
   loading: false,
 };
 
-export const treeAsync = createAsyncThunk(
-  "tree/getProducts",
-  async (id) => {
-    return await getProducts(id);
+export const getAsync = createAsyncThunk(
+  "tree/get",
+  async (restaurant_id) => {
+    if (restaurant_id === "test") {
+      return localeProducts;
+    }
+    return await api.get(restaurant_id);
+  }
+);
+
+export const removeAsync = createAsyncThunk(
+  "tree/remove",
+  async (product) => {
+    if (product.id === "test") {
+      return product;
+    }
+    return await api.remove(product);
   }
 );
 
@@ -32,36 +46,38 @@ export const treeSlice = createSlice({
     },
     insert: (state, action) => {
       const item = action.payload;
-      if (item.parent_id === "root" && !item.product_id) {
-        state.products = [item, ...state.products.concat()];
-      } else {
-        state.products = tree.insert(item, state.products.concat());
-      }
+      state.products = tree.insert(item, state.products);
     },
     remove: (state, action) => {
       const item = action.payload;
       state.products = tree.remove(item, state.products);
     },
+    move: (state, action) => {
+      const item = action.payload;
+      tree.move(item, state.products);
+    },
   },
   extraReducers: (builder) => {
     builder
-      .addCase(treeAsync.pending, (state) => {
+      .addCase(getAsync.pending, (state) => {
         state.loading = true;
       })
-      .addCase(treeAsync.fulfilled, (state, action) => {
-        console.log('treeAsync.fulfilled');
-        console.log(action.payload);
-        if (action.payload) {
-          state.products = action.payload;
-        } else {
-          state.products = localeProducts;
-        }
+      .addCase(getAsync.fulfilled, (state, action) => {
+        state.products = action.payload;
         state.loading = false;
       })
-      .addCase(treeAsync.rejected, (state, action) => {
+      .addCase(getAsync.rejected, (state) => {
         state.products = localeProducts;
         state.loading = false;
-      });
+      })
+      .addCase(removeAsync.pending, (state) => {
+        state.loading = true;
+      })
+      .addCase(removeAsync.fulfilled, (state, action) => {
+        const item = action.payload;
+        state.products = tree.remove(item, state.products);
+        state.loading = false;
+      })
   },
 });
 
@@ -74,5 +90,7 @@ export const selectTree = (state) => {
   const products = tree.get(items, list);
   return { list, products };
 };
+
+
 
 export default treeSlice.reducer;

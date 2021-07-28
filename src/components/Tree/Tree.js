@@ -2,9 +2,14 @@ import React, { createRef, useEffect, memo } from "react";
 import styles from "./Tree.module.css";
 import { Category, Product } from "../";
 import cn from "classnames";
-
+import { useDispatch } from "react-redux";
+import {
+  move
+} from "./Tree.slice";
 export const Tree = memo(({ id, categories, products, className, expanded }) => {
+
   const treeElement = createRef(null);
+  const dispatch = useDispatch();
 
   const onEnd = (evt) => {
     const oldIndex = evt.oldIndex;
@@ -19,6 +24,15 @@ export const Tree = memo(({ id, categories, products, className, expanded }) => 
 
     if (oldIndex === index && parent === oldParent) return;
 
+    const obj = {
+      parent_id: categoryId,
+      type: name,
+    };
+    if (name === "category") {
+      obj.category_id = id;
+    } else {
+      obj.product_id = id;
+    }
     console.log({
       "id предмета": id,
       "id категории куда суем": categoryId,

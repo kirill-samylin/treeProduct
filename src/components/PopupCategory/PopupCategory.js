@@ -9,7 +9,7 @@ import { handleRemove } from "../ImageCropper/ImageCropper.slice";
 
 import {
   insert,
-} from '../App/App.slice';
+} from '../Tree/Tree.slice';
 
 export const PopupCategory = () => {
   const state = useSelector(selectState);

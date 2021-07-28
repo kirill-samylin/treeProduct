@@ -4,22 +4,18 @@ import styles from "./PopupСonfirm.module.css";
 import { useSelector, useDispatch } from "react-redux";
 import { Button } from "react-bootstrap";
 import { selectData, handleClose } from "./PopupСonfirm.slice";
-
-import {
-  insert,
-} from '../App/App.slice';
-
 export const PopupСonfirm = () => {
-  const { isOpen, title, data, cb } = useSelector(selectData);
+  const { isOpen, title, cb } = useSelector(selectData);
   const dispatch = useDispatch();
 
   const onClose = useCallback(() => dispatch(handleClose()), [dispatch]);
 
   const handleConfirm = useCallback(() => {
     if (typeof cb === 'function') {
-      cb();
+      cb()
+        .then(() => onClose())
+        .catch((err) => console.log(err))
     }
-    onClose();
   }, [cb, onClose]);
 
   return (

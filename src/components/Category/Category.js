@@ -5,11 +5,13 @@ import FolderIcon from './icons/folder.svg';
 import { Tree } from '../';
 import { Button, Switch } from '../../elements';
 import { useDispatch } from 'react-redux';
+import { isEqual } from 'lodash';
 import {
     changeStatus,
     changeExpand,
-    remove
-} from '../App/App.slice';
+    remove,
+    removeAsync,
+} from '../Tree/Tree.slice';
 
 import * as popupProduct from "../PopupProduct/PopupProduct.slice";
 import * as popupCategory from "../PopupCategory/PopupCategory.slice";
@@ -25,13 +27,12 @@ export const Category = memo(({ product }) => {
     const onClickExpanded = useCallback(() => dispatch(changeExpand(product)), [product, dispatch]);
     const onCreateProduct = useCallback(() => dispatch(popupProduct.handleOpen(product)), [product, dispatch]);
     const onCreateCategory = useCallback(() => dispatch(popupCategory.handleOpen(product)), [product, dispatch]);
-    const onRemove = useCallback(() => dispatch(remove(product)), [product, dispatch]);
+    const onRemove = useCallback(() => dispatch(removeAsync(product)), [product, dispatch]);
 
     const onConfirm = useCallback(() => dispatch(popupСonfirm.handleOpen({
-        data: product,
         title: `Удалить категорию ${name_ru} ?`,
         cb: onRemove,
-    })), [product, dispatch, onRemove, name_ru]);
+    })), [dispatch, onRemove, name_ru]);
 
     return (
         <li className={`${styles.item} list-group-item`} 
@@ -61,4 +62,6 @@ export const Category = memo(({ product }) => {
             />
         </li>
     )
+}, (prev, now) => {
+    return isEqual(prev, now);
 });

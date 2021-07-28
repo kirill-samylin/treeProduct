@@ -10,7 +10,7 @@ import {
     changeStatus,
     changeExpand,
     remove
-} from '../App/App.slice';
+} from '../Tree/Tree.slice';
 
 import * as popupProduct from "../PopupProduct/PopupProduct.slice";
 import * as popupCategory from "../PopupCategory/PopupCategory.slice";

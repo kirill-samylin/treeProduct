@@ -9,7 +9,7 @@ import { selectState, handleClose, selectData } from "./PopupProduct.slice";
 
 import {
   insert,
-} from '../App/App.slice';
+} from '../Tree/Tree.slice';
 
 export const PopupProduct = () => {
   const state = useSelector(selectState);
