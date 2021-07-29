@@ -24,6 +24,7 @@ export const getImageUrlAsync = createAsyncThunk(
     return await Promise.all([...data.map((image) => {
       const formData = new FormData();
       formData.append("image", image.blob);
+      formData.append("productId", undefined);
       return getImageUrl(formData, image.key);
     })]);
   }

@@ -73,7 +73,6 @@ export function getImageUrl(formData, key) {
     .then((token) => fetch(`/product/img-save`, {
       method: "POST",
       headers: {
-        "Accept-Content-Type": "text/html",
         "X-Requested-With": "XMLHttpRequest",
         "X-CSRF-Token": token
       },
