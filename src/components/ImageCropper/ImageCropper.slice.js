@@ -1,5 +1,5 @@
 import { createSlice, createAsyncThunk} from "@reduxjs/toolkit";
-import { saveImage } from "../../services/api";
+import { saveImage, getImageUrl } from "../../services/api";
 
 const initialState = {
   isOpen: false,
@@ -7,6 +7,7 @@ const initialState = {
   url: "",
   loading: false,
   imageLoad: false,
+  images: [],
 };
 
 export const saveImageAsync = createAsyncThunk(
@@ -14,6 +15,17 @@ export const saveImageAsync = createAsyncThunk(
   async (data) => {
     const response = await saveImage(data);
     return response.data;
+  }
+);
+
+export const getImageUrlAsync = createAsyncThunk(
+  "imageCropper/getImageUrl",
+  async (data) => {
+    return await Promise.all([...data.map((image) => {
+      const formData = new FormData();
+      formData.append("image", image.blob);
+      return getImageUrl(formData, image.key);
+    })]);
   }
 );
 
@@ -40,14 +52,19 @@ export const imageCropperSlice = createSlice({
   },
   extraReducers: (builder) => {
     builder
-      .addCase(saveImageAsync.pending, (state) => {
+      .addCase(getImageUrlAsync.pending, (state) => {
         state.url = "";
         state.imageLoad = true;
         state.loading = true;
         state.isOpen = false;
       })
-      .addCase(saveImageAsync.fulfilled, (state, action) => {
-        state.url = action.payload;
+      .addCase(getImageUrlAsync.fulfilled, (state, action) => {
+        const images = action.payload;
+        if (images.length) {
+          const [name, url] = Object.entries(images[0])[0];
+          state.url = url;
+        }
+        //state.url = action.payload;
         state.loading = false;
         state.imageLoad = false;
       });

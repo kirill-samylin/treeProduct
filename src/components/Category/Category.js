@@ -31,7 +31,7 @@ export const Category = memo(({ product }) => {
 
     const onConfirm = useCallback(() => dispatch(popupСonfirm.handleOpen({
         title: `Удалить категорию ${name_ru} ?`,
-        cb: onRemove,
+        cb: new Promise((resolve) => resolve(onRemove)),
     })), [dispatch, onRemove, name_ru]);
 
     return (

@@ -1,22 +1,47 @@
+const headers = {
+  "Content-Type": "application/json",
+};
+
+function getJson(res) {
+  if (res.ok) {
+    return res.json();
+  }
+  return Promise.reject(`Что-то пошло не так: ${res.status}`);
+};
+
+function getToken() {
+  return fetch(`/ajax/get-csrf-token`, {
+    headers,
+  })
+    .then(getJson)
+    .then(({ data }) => {
+      console.log(data)
+      return {
+        [data.param]: data.token,
+      }
+    })
+    .catch((err) => console.log(err))
+}
+
+//Получаем дерево продуктов
 export function get(id) {
   return fetch(`/restaurant/menu-data?id=${id}`, {
-    headers: {
-      "Content-Type": "application/json",
-    },
+    headers,
   })
-    .then((res) => {
-      if (res.ok) {
-        return res.json();
-      }
-      return Promise.reject(`Что-то пошло не так: ${res.status}`);
-    })
+    .then(getJson)
 }
+
 export function remove(product) {
-  return fetch(`/category/delete?id=${product.category_id || product.product_id}`, {
-    method: "POST",
-  })
+  const id = product.category_id || product.product_id;
+  const type = (product.category_id) ? 'category' : 'product';
+  return getToken()
+    .then((formData) => fetch(`/${type}/delete?id=${id}`, {
+      method: "POST",
+      headers,
+      body: JSON.stringify(formData),
+    }))
     .then((res) => {
-      if (res.ok) {
+      if (res.ok || res.status===302) {
         return product;
       }
       return Promise.reject(`Что-то пошло не так: ${res.status}`);
@@ -24,6 +49,7 @@ export function remove(product) {
 }
 
 export function saveImage() {
+  //http://lk.foodle.local/product/img-save
   return new Promise((resolve) =>
     setTimeout(
       () =>
@@ -33,4 +59,20 @@ export function saveImage() {
       3000
     )
   );
+}
+export function getImageUrl(formData, key) {
+  // return new Promise((resovle) => {
+  //   setTimeout(() => resovle({[key]: "https://s6.cdn.teleprogramma.pro/wp-content/uploads/2020/06/689da5444c44d931d0f97a5df9bda833.jpg"}), Math.random() * 5 * 1000);
+  // });
+  return fetch(`/product/img-save`, {
+    method: "POST",
+    body: formData
+  })
+    .then((res) => {
+      if (res.ok) {
+        return res.body
+      }
+      return Promise.reject(`Что-то пошло не так: ${res.status}`); 
+    })
+    .then((url) => ({ [key]: url }))
 }

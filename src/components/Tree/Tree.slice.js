@@ -24,7 +24,7 @@ export const removeAsync = createAsyncThunk(
     if (product.id === "test") {
       return product;
     }
-    return await api.remove(product);
+   return await api.remove(product);
   }
 );
 

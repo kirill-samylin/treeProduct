@@ -1,23 +1,13 @@
-import React, { useRef, useState } from "react";
+import React, { useRef, useState, useCallback } from "react";
 import styles from "./ImageCropperPopup.module.css";
 import { Popup } from "../..";
 import Cropper from "react-cropper";
 import { Button } from "react-bootstrap";
-import { selectState, selectImage, handleClose, saveImageAsync } from "../ImageCropper.slice";
+import { selectState, selectImage, handleClose, saveImageAsync, getImageUrlAsync } from "../ImageCropper.slice";
 import { useSelector, useDispatch } from "react-redux";
+import { defaultType, defaultWidth, defaultHeight, defaultQuality } from "../../../constants/cropper";
 
-const style = {
-  width: 750,
-  height: 470,
-};
-
-const options = {
-  aspectRatio: 75 / 47,
-  autoCropArea: 1,
-  style,
-};
-
-const ImageCropperPopup = () => {
+const ImageCropperPopup = ({ cropperOptions, formats }) => {
   const cropperRef = useRef(null);
   const [ cropper, setCropper ] = useState('');
 
@@ -25,19 +15,28 @@ const ImageCropperPopup = () => {
   const image = useSelector(selectImage);
   const dispatch = useDispatch();
   
-  const onClose = () => {
+  const onClose = useCallback(() => {
     dispatch(handleClose());
-  };
+  }, [dispatch]);
 
-  const getCropData = () => {
+  const getCropData = useCallback(() => {
+ 
     if (typeof cropper !== "undefined") {
-      const croppImage = cropper.getCroppedCanvas().toDataURL();
-      const formData = new FormData();
-      const blob = new Blob([croppImage], { type: "image/png" });
-      formData.append("image", blob);
-      dispatch(saveImageAsync(formData));
+      const images = [];
+      for (let format of formats) {
+        const croppImage = cropper.getCroppedCanvas({ 
+          width: format.width || defaultWidth,
+          height: format.height || defaultHeight,
+          imageSmoothingQuality: format.quality || defaultQuality,
+        }).toDataURL();
+        images.push({
+          blob: new Blob([croppImage], { type: format.type || defaultType }),
+          key: format.key,
+        });
+      }
+      dispatch(getImageUrlAsync(images));
     }
-  };
+  }, [cropper, formats, dispatch]);
 
   return (
     <Popup
@@ -47,7 +46,7 @@ const ImageCropperPopup = () => {
     >
       <Cropper
         src={image || ""}
-        {...options}
+        {...cropperOptions}
         ref={cropperRef}
         onInitialized={(instance) => {
           setCropper(instance);

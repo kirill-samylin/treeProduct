@@ -12,9 +12,12 @@ export const PopupСonfirm = () => {
 
   const handleConfirm = useCallback(() => {
     if (typeof cb === 'function') {
-      cb()
-        .then(() => onClose())
-        .catch((err) => console.log(err))
+      try {
+        cb();
+        onClose();
+      } catch(err) {
+        console.log(err);
+      }
     }
   }, [cb, onClose]);
 

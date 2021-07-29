@@ -1,4 +1,4 @@
-import React, { useEffect } from "react";
+import React, { useEffect, useCallback } from "react";
 import { Popup, ImageCropper } from "..";
 import styles from "./PopupCategory.module.css";
 import { useSelector, useDispatch } from "react-redux";
@@ -12,6 +12,7 @@ import {
 } from '../Tree/Tree.slice';
 
 export const PopupCategory = () => {
+  console.log('render PopupCategory')
   const state = useSelector(selectState);
   const data = useSelector(selectData);
   const dispatch = useDispatch();
@@ -23,7 +24,12 @@ export const PopupCategory = () => {
     reset,
   } = useForm({ mode: 'onChange' });
 
-  const onSubmit = (values) => {
+  const onClose = useCallback(() => {
+    dispatch(handleClose());
+    dispatch(handleRemove());
+  }, [dispatch]);
+
+  const onSubmit = useCallback((values) => {
     values.category_id = +new Date();
     values.products = [];
     values.children = [];
@@ -31,17 +37,53 @@ export const PopupCategory = () => {
     delete values.image;
     dispatch(insert(values));
     onClose();
-  };
+  }, [dispatch, onClose]);
 
-  const onClose = () => {
-    dispatch(handleClose());
-    dispatch(handleRemove());
-  };
+  
 
   useEffect(() => {
     reset(data);
   }, [reset, data]);
   
+  const options = {
+    cropperOptions: {
+      aspectRatio: 1 / 1,
+      autoCropArea: 1,
+    },
+    formats: [
+      {
+        key: "icon",
+        type: "image/png",
+        width: 120,
+        height: 120,
+      },
+      {
+        key: "icon",
+        type: "image/png",
+        width: 120,
+        height: 120,
+      },
+      {
+        key: "icon",
+        type: "image/png",
+        width: 120,
+        height: 120,
+      },
+      {
+        key: "icon",
+        type: "image/png",
+        width: 120,
+        height: 120,
+      },
+      {
+        key: "icon",
+        type: "image/png",
+        width: 120,
+        height: 120,
+      },
+    ]
+  };
+
   return (
     <Popup
       opened={state}
@@ -90,7 +132,7 @@ export const PopupCategory = () => {
               {...register("disabled")}
           />
         </Form.Group>
-        <ImageCropper register={register} />
+        <ImageCropper register={register} options={options} />
         <div className={styles.buttons}>
             <Button variant="primary" type="submit" disabled={!isValid}>
               Добавить

@@ -1,16 +1,17 @@
-import React from "react";
-import { useDispatch } from "react-redux";
+import React, { useCallback } from "react";
+import { useDispatch, useSelector } from "react-redux";
 import "cropperjs/dist/cropper.css";
 import { Form } from "react-bootstrap";
-import { handleOpen }from "./ImageCropper.slice";
+import { handleOpen, selectImageLoad }from "./ImageCropper.slice";
 import ImageCropperPreview from './ImageCropperPreview/ImageCropperPreview';
 import ImageCropperPopup from './ImageCropperPopup/ImageCropperPopup';
-
-export const ImageCropper = ({ register, ...props }) => {
-
+export const ImageCropper = ({ register, options, ...props }) => {
+  console.log('render ImageCropper')
   const dispatch = useDispatch();
 
-  const handleCropper = (file) => {
+  const imageLoad = useSelector(selectImageLoad);
+
+  const handleCropper = useCallback((file) => {
     const isImage = /^image\/\w+$/.test(file.type);
     if (!isImage) return;
     const reader = new FileReader();
@@ -18,9 +19,15 @@ export const ImageCropper = ({ register, ...props }) => {
       dispatch(handleOpen(reader.result));
     };
     reader.readAsDataURL(file);
-  };
+  }, [dispatch]);
 
-  const onChange = (e) => {
+  const onClick = useCallback((e) => {
+    if (e && e.target && e.target.value) {
+      e.target.value = null;
+    }
+  }, []);
+
+  const onChange = useCallback((e) => {
     e.preventDefault();
     let files;
     if (e.dataTransfer) {
@@ -31,7 +38,7 @@ export const ImageCropper = ({ register, ...props }) => {
     if (files.length) {
       handleCropper(files[0]);
     }
-  };
+  }, [handleCropper]);
 
   return (
     <>
@@ -41,9 +48,11 @@ export const ImageCropper = ({ register, ...props }) => {
           label="Картинка"
           {...register("image")}
           onChange={onChange}
+          onClick={onClick}
+          disabled={imageLoad}
         />
       </Form.Group>
-      <ImageCropperPopup />
+      <ImageCropperPopup {...options} />
     </>
   );
 };
