@@ -1,15 +1,16 @@
 import React, { useEffect } from "react";
 import styles from './App.module.css';
+import "cropperjs/dist/cropper.css";
+import { ParamsProvider } from '../../contexts/ParamsContext';
 import { Tree, PopupProduct, Menu, PopupCategory, PopupСonfirm } from "..";
 import { useSelector, useDispatch } from "react-redux";
-import "cropperjs/dist/cropper.css";
 import {
   getAsync,
   selectTree
 } from "../Tree/Tree.slice";
 import { getParams } from "../../utils";
 
-export const App = () => {
+export const App = (data) => {
   const { products } = useSelector(selectTree);
   const dispatch = useDispatch();
 
@@ -23,7 +24,7 @@ export const App = () => {
   }, [dispatch]);
 
   return (
-    <>
+    <ParamsProvider value={data}>
       <section className={styles.app}>
         <Menu />
         <Tree
@@ -35,6 +36,6 @@ export const App = () => {
       <PopupProduct />
       <PopupCategory />
       <PopupСonfirm />
-    </>
+    </ParamsProvider>
   );
 };

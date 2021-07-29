@@ -70,7 +70,7 @@ export function getImageUrl(formData, key) {
   })
     .then((res) => {
       if (res.ok) {
-        return res.body
+        return res.body;
       }
       return Promise.reject(`Что-то пошло не так: ${res.status}`); 
     })

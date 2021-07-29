@@ -1,6 +1,7 @@
-import React, { useCallback } from "react";
+import React, { useCallback, useContext } from "react";
 import { Button, Spinner } from "react-bootstrap";
 import { useSelector, useDispatch } from "react-redux";
+import ParamsContext from '../../../contexts/ParamsContext';
 import styles from "./ImageCropperPreview.module.css";
 import cn from "classnames";
 import {
@@ -15,6 +16,8 @@ import {
 import * as popupСonfirm from "../../PopupСonfirm/PopupСonfirm.slice";
 
 const ImageCropperPreview = ({ className, classImage, classMenu }) => {
+  const { cdnHost } = useContext(ParamsContext);
+  console.log(cdnHost)
   const url = useSelector(selectUrl);
   const image = useSelector(selectImage);
   const loading = useSelector(selectLoading);
@@ -45,7 +48,7 @@ const ImageCropperPreview = ({ className, classImage, classMenu }) => {
           })}>
             <Spinner animation="border" variant="primary" />
           </div>
-          <img onLoad={onLoad} src={url} alt="preview" className={cn(styles.image, classImage, {
+          <img onLoad={onLoad} src={(url) ? cdnHost + url : ''} alt="preview" className={cn(styles.image, classImage, {
               [styles.hidden]: imageLoad || loading,
           })}/>
           <div className={cn(styles.menu, classMenu)}>
